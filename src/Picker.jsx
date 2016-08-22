@@ -9,16 +9,11 @@ import {
 const propTypes = {
   lat: PropTypes.number.isRequired,
   lng: PropTypes.number.isRequired,
-  icon: PropTypes.object,
-  dragIcon: PropTypes.object,
+  icon: PropTypes.object
 };
 
 const defaultProps = {
   icon: {
-    url: './1471880603_map-marker.png',
-    scaledSize: new google.maps.Size(48, 48)
-  },
-  dragIcon: {
     url: './1471880603_map-marker.png',
     scaledSize: new google.maps.Size(48, 48)
   }
@@ -34,6 +29,7 @@ class Picker extends React.Component {
         lng: props.lng
       },
       icon: props.icon,
+      markerOpacity: 1.0,
       drag: false
     };
     this.handleDragend = this.handleDragend.bind(this);
@@ -48,16 +44,16 @@ class Picker extends React.Component {
     };
     this.setState({
       position: newPosition,
-      icon: this.props.icon,
-      drag: false
+      drag: false,
+      markerOpacity: 1.0
     });
     this.googleMap.panTo(new google.maps.LatLng(newPosition));
   }
 
   handleDragstart() {
     this.setState({
-      icon: this.props.dragIcon,
-      drag: true
+      drag: true,
+      markerOpacity: 0.5
     });
   }
 
@@ -82,6 +78,18 @@ class Picker extends React.Component {
   }
 
   render() {
+    const markerOption = {
+      crossOnDrag: false
+    };
+    const mapOption = {
+      scrollwheel: false,
+      zoomControl: true,
+      zoomControlOptions: {
+        position: google.maps.ControlPosition.LEFT_TOP
+      },
+      streetViewControl: false,
+      mapTypeControl: false
+    };
     return (
       <section style={{ height: '100%' }}>
         <GoogleMapLoader
@@ -93,6 +101,7 @@ class Picker extends React.Component {
               defaultZoom={15}
               defaultCenter={this.state.position}
               ref={(ref) => { this.googleMap = ref; }}
+              options={mapOption}
             >
               {this.renderCircle()}
               <Marker
@@ -101,6 +110,8 @@ class Picker extends React.Component {
                 onDragend={this.handleDragend}
                 onDragstart={this.handleDragstart}
                 icon={this.state.icon}
+                options={markerOption}
+                opacity={this.state.markerOpacity}
               />
             </GoogleMap>
           }
