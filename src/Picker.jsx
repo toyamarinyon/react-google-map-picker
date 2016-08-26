@@ -9,14 +9,18 @@ import {
 const propTypes = {
   lat: PropTypes.number.isRequired,
   lng: PropTypes.number.isRequired,
-  icon: PropTypes.object
+  icon: PropTypes.object,
+  height: PropTypes.string,
+  onChange: PropTypes.func
 };
 
 const defaultProps = {
   icon: {
     url: './1471880603_map-marker.png',
     scaledSize: new google.maps.Size(48, 48)
-  }
+  },
+  height: '100%',
+  onChange: s => s
 };
 
 class Picker extends React.Component {
@@ -48,6 +52,7 @@ class Picker extends React.Component {
       markerOpacity: 1.0
     });
     this.googleMap.panTo(new google.maps.LatLng(newPosition));
+    this.props.onChange(newPosition);
   }
 
   handleDragstart() {
@@ -71,7 +76,7 @@ class Picker extends React.Component {
     return (
       <Circle
         center={this.state.position}
-        radius={Math.sqrt(10) * 100}
+        radius={Math.sqrt(10) * 50}
         options={options}
       />
     );
@@ -91,14 +96,14 @@ class Picker extends React.Component {
       mapTypeControl: false
     };
     return (
-      <section style={{ height: '100%' }}>
+      <section style={{ height: this.props.height }}>
         <GoogleMapLoader
           containerElement={
             <div style={{ height: '100%' }} />
           }
           googleMapElement={
             <GoogleMap
-              defaultZoom={15}
+              defaultZoom={16}
               defaultCenter={this.state.position}
               ref={(ref) => { this.googleMap = ref; }}
               options={mapOption}
