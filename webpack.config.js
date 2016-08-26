@@ -1,9 +1,11 @@
+const path = require('path');
+
 module.exports = {
   entry: [
-    './src/index.jsx'
+    path.join(__dirname, './example/index.jsx')
   ],
   output: {
-    path: __dirname + '/public',
+    path: path.join(__dirname, './doc'),
     filename: 'bundle.js'
   },
   resolve: {
@@ -34,16 +36,5 @@ module.exports = {
         loaders: ['file']
       }
     ],
-  },
-  sassLoader: {
-    includePaths: ['./node_modules/bootstrap/scss', './node_modules/font-awesome/scss']
-  },
-  devServer: {
-    proxy: {
-      '/api/*': {
-        target: 'http://smartstock.dev',
-        secure: false
-      }
-    }
   }
 };
