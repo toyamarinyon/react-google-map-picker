@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "babel src --out-dir lib",
     "build:doc": "webpack",
-    "start": "webpack-dev-server --host 0.0.0.0 --hot --inline --content-base doc/",
+    "start": "webpack-dev-server --host 0.0.0.0 --hot --inline --content-base docs/",
     "lint": "eslint ./src/ --ext jsx --ext js"
   },
   "author": "@toyamarinyon",
